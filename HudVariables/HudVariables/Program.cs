@@ -13,9 +13,10 @@ namespace HudVariables
         class Questions
         {
             /* Int declarations */
-            public int score; public int health; public int playerDamage; public int enenmyHealth; 
+            public int score; public int health; public int playerDamage;  
             public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
-            public static int activeWeapon; public static int Stick = 2; 
+            public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
+            public int enemyRemainingHealth;
             /* String declarations */
             public string question; public string correctAnswer; public string userAnswer; public string studioName; 
             public string finalAnswer; public string playerName;
@@ -52,7 +53,7 @@ namespace HudVariables
             static void Main(string[] args)
             {
                 /* Int initializations */
-                int score = 0; int health = 0; int playerDamage = 0; int enenmyHealth = 0;
+                int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
                 /* String initializations*/
                 string studioName = "NameWasTakenStudios"; string playerName;
                 /* Float initializations */
@@ -115,7 +116,6 @@ namespace HudVariables
                 Console.ReadKey();
                 Console.WriteLine();
                 Console.WriteLine("                                                         LEVEL 1");
-                Console.ReadKey();
                 Console.WriteLine();
                 Console.WriteLine("You begin your journey with a sturdy stick and a smile on your face.");
                 Console.WriteLine();
@@ -123,10 +123,18 @@ namespace HudVariables
                 Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
                 Console.WriteLine("Press 'E' to Attack");
                 KeyInput();
+                Console.Clear();
                 Console.ReadKey();
+                Console.WriteLine("end of code");
+                Console.ReadKey(true);
 
 
 
+
+
+
+
+                
 
 
                 // Various Methods
@@ -140,8 +148,8 @@ namespace HudVariables
 
                         case ConsoleKey.E:
                             {
-                                Console.WriteLine("check check"); 
-                            Attack();
+                                Console.WriteLine("check check");
+                                Combat();
 
                             }
                             break;
@@ -154,6 +162,19 @@ namespace HudVariables
 
                     }
                 }
+
+                bool Combat()
+                {
+                    if (health >= 0)
+                    {
+                        Attack();
+                        return false;
+                    }
+                    Console.WriteLine("You've beaten the Enemy");
+                    return true;
+                }
+
+
                 void Attack()
                 {
                     Console.WriteLine("is this working");
@@ -161,14 +182,35 @@ namespace HudVariables
 
                     
                     int playerAttack = rnd.Next(1, 20) + playerDamage + activeWeapon;
-                    Console.WriteLine(playerAttack);
-
+                    Console.WriteLine("Player attacks for " + playerAttack);
+                    Console.WriteLine("Enemy has: " + enemyHealth + " HP left");
                     int enemyAttack = rnd.Next(1, 10) + enemyDamage;
-                 
-                    
+                    int remainingHealth = health -= enemyAttack;
+                    Console.WriteLine("You have: " + remainingHealth + " HP left");
 
+                    int enemyRemainingHealth = enemyHealth -= playerAttack;
+                    Console.WriteLine("Enemy has: " + enemyRemainingHealth + " HP left");
 
-
+                    if (health <= 0)
+                    {
+                        lives = lives - 1;
+                        health = 100;
+                    }
+                    if (enemyRemainingHealth <= 0)
+                    {
+                        enemyRemainingHealth = 0;
+                    }
+                    if (lives <= 0)
+                    {
+                        Console.WriteLine("You Lose");
+                    }
+                    if (enemyHealth == 0)
+                    {
+                        score += 100;
+                        level++;
+                        Console.WriteLine("                                                             Next Level");
+                        return;
+                    }
                 }
                     void ShowHud()
                 {
