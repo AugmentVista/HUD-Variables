@@ -8,49 +8,134 @@ using System.Threading.Tasks;
 
 namespace HudVariables
 {
-    internal class Program
+    class Questions
     {
-        class Questions
+        /* Int declarations */
+        public int score; public int health; public int playerDamage;
+        public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
+        public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
+        public int enemyRemainingHealth;
+        /* String declarations */
+        public string question; public string correctAnswer; public string userAnswer; public string studioName;
+        public string finalAnswer; public string playerName;
+        /* Float declarations */
+        static float scoreMult; static float lives;
+        /* Bool declarations */
+        public static ConsoleKeyInfo input;
+        private static Random randomResult;
+
+        public Questions(string aQuestion, string aCorrectAnswer)
         {
+            question = aQuestion;
+            correctAnswer = aCorrectAnswer;
+        }
+
+        // Checks if the answer is either easy medium or hard
+        public bool ValidateAnswer(string aUserAnswer)
+        {
+            if (aUserAnswer == "easy" || aUserAnswer == "medium" || aUserAnswer == "hard")
+            {
+                return true;
+            }
+            Console.WriteLine("Invalid answer.");
+            Console.WriteLine("Please choose between \"easy\", \"medium\" or \"hard\".");
+            return false;
+        }
+
+        //checks that the answer given by the user is acceptable
+        public bool VerifyAnswer(string aUserAnswer)
+        {
+            return aUserAnswer == correctAnswer;
+        }
+
+        static void Main(string[] args)
+        {
+            /* Int initializations */
+            int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
+            /* String initializations*/
+            string studioName = "NameWasTakenStudios"; string playerName;
+            /* Float initializations */
+            float scoreMult = 1.00f; float lives = 1.00f;
+
+
+            // Opening phrases to player
+
+            Console.WriteLine("Brought to you by " + studioName);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Welcome player please enter your name");
+            playerName = Console.ReadLine();
+            Console.ReadLine();
+            Console.WriteLine("Hello " + playerName);
+            Console.ReadKey();
+            Console.WriteLine("Begin!");
+            Console.ReadKey();
+            // string hard after difficulty string is needed to provide an arguement that corresponds to aCorrectAnswer
+            Questions firstQuestion = new Questions("Please select your difficulty", "hard");
+            Console.WriteLine(firstQuestion.question);
+            Console.WriteLine("----");
+            Console.WriteLine("easy");
+            Console.WriteLine("medium");
+            Console.WriteLine("hard");
+            Console.Write("Your answer is: ");
+
+            string answer = Console.ReadLine().ToLower();
+            while (!firstQuestion.ValidateAnswer(answer))
+            {
+                answer = Console.ReadLine().ToLower();
+                string finalAnswer = Console.ReadLine();
+
+            }
+            Console.ReadLine();
+            // End of difficulty question
+
+            Console.WriteLine("You have selected " + answer);
+            Console.ReadKey();
+            if (answer == "easy")
+            {
+                scoreMult = 1.00f;
+                lives = 5;
+                playerDamage = 5;
+            }
+            else if (answer == "medium")
+            {
+                scoreMult = 1.5f;
+                lives = 4;
+                playerDamage = 7;
+            }
+            else if (answer == "hard")
+            {
+                scoreMult = 2.0f;
+                lives = 3;
+                playerDamage = 9;
+                Program.Notmain();
+            }
+        }
+
+        /// <summary>
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        internal class Program
+        {
+
+
             /* Int declarations */
-            public int score; public int health; public int playerDamage;  
+            public int score; public int health; public int playerDamage;
             public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
             public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
             public int enemyRemainingHealth;
             /* String declarations */
-            public string question; public string correctAnswer; public string userAnswer; public string studioName; 
+            public string question; public string correctAnswer; public string userAnswer; public string studioName;
             public string finalAnswer; public string playerName;
             /* Float declarations */
-           static float scoreMult; static float lives;
+            static float scoreMult; static float lives;
             /* Bool declarations */
             public static ConsoleKeyInfo input;
             private static Random randomResult;
 
-            public Questions(string aQuestion, string aCorrectAnswer)
-            {
-                question = aQuestion;
-                correctAnswer = aCorrectAnswer;
-            }
 
-            // Checks if the answer is either easy medium or hard
-            public bool ValidateAnswer(string aUserAnswer)
-            {
-                if (aUserAnswer == "easy" || aUserAnswer == "medium" || aUserAnswer == "hard")
-                {
-                    return true;
-                }
-                Console.WriteLine("Invalid answer.");
-                Console.WriteLine("Please choose between \"easy\", \"medium\" or \"hard\".");
-                return false;
-            }
 
-            //checks that the answer given by the user is acceptable
-            public bool VerifyAnswer(string aUserAnswer)
-            {
-                return aUserAnswer == correctAnswer;
-            }
-
-            static void Main(string[] args)
+             public static void Notmain()
             {
                 /* Int initializations */
                 int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
@@ -60,81 +145,17 @@ namespace HudVariables
                 float scoreMult = 1.00f; float lives = 1.00f;
 
 
-                // Opening phrases to player
-
-                Console.WriteLine("Brought to you by " + studioName);
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("Welcome player please enter your name");
-                playerName = Console.ReadLine();
-                Console.ReadLine();
-                Console.WriteLine("Hello " + playerName);
-                Console.ReadKey();
-                Console.WriteLine("Begin!");
-                Console.ReadKey();
-                // string hard after difficulty string is needed to provide an arguement that corresponds to aCorrectAnswer
-                Questions firstQuestion = new Questions("Please select your difficulty", "hard");
-                Console.WriteLine(firstQuestion.question);
-                Console.WriteLine("----");
-                Console.WriteLine("easy");
-                Console.WriteLine("medium");
-                Console.WriteLine("hard");
-                Console.Write("Your answer is: ");
-
-               string answer = Console.ReadLine().ToLower();
-                while (!firstQuestion.ValidateAnswer(answer))
-                {
-                    answer = Console.ReadLine().ToLower();
-                    string finalAnswer = Console.ReadLine();
-                    
-                }
-                Console.ReadLine();
-                // End of difficulty question
-
-                Console.WriteLine("You have selected " + answer);
-                Console.ReadKey();
-                if (answer == "easy")
-                {
-                    scoreMult = 1.00f;
-                    lives = 5;
-                    playerDamage = 5;
-                }
-                else if (answer == "medium")
-                {
-                    scoreMult = 1.5f;
-                    lives = 4;
-                    playerDamage = 7;
-                }
-                else if (answer == "hard")
-                {
-                    scoreMult = 2.0f;
-                    lives = 3;
-                    playerDamage = 9;
-                }
-                Console.Clear();
-                ShowHud();
-                Console.ReadKey();
-                Console.WriteLine();
-                Console.WriteLine("                                                         LEVEL 1");
-                Console.WriteLine();
                 Console.WriteLine("You begin your journey with a sturdy stick and a smile on your face.");
                 Console.WriteLine();
                 int activeWeapon = Stick;
                 Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
                 Console.WriteLine("Press 'E' to Attack");
                 KeyInput();
-                Console.Clear();
                 Console.ReadKey();
+                Console.Clear();
                 Console.WriteLine("end of code");
-                Console.ReadKey(true);
+                Console.ReadKey();
 
-
-
-
-
-
-
-                
 
 
                 // Various Methods
@@ -155,7 +176,7 @@ namespace HudVariables
                             break;
 
                         case ConsoleKey.Q:
-                            //Talk();
+                            Talk();
 
                             break;
 
@@ -163,12 +184,31 @@ namespace HudVariables
                     }
                 }
 
+                void Talk()
+                {
+                    Console.WriteLine("You make a deal and recive a ");
+
+
+                }
+
+                void ShowHud()
+                {
+                    Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Score Multiplier " + scoreMult);
+                    Console.WriteLine("LEVEL " + level);
+
+                }
+
                 bool Combat()
                 {
+                    if (enemyHealth <= 0)
+                    {
+                        ShowHud();
+                        return true;
+                    }
                     if (health >= 0)
                     {
                         Attack();
-                        return false;
+                        return false;  
                     }
                     Console.WriteLine("You've beaten the Enemy");
                     return true;
@@ -180,21 +220,22 @@ namespace HudVariables
                     Console.WriteLine("is this working");
                     Random rnd = new Random();
 
-                    
+
                     int playerAttack = rnd.Next(1, 20) + playerDamage + activeWeapon;
-                    Console.WriteLine("Player attacks for " + playerAttack);
-                    Console.WriteLine("Enemy has: " + enemyHealth + " HP left");
+                    int enemyRemainingHealth = enemyHealth -= playerAttack;
                     int enemyAttack = rnd.Next(1, 10) + enemyDamage;
                     int remainingHealth = health -= enemyAttack;
-                    Console.WriteLine("You have: " + remainingHealth + " HP left");
 
-                    int enemyRemainingHealth = enemyHealth -= playerAttack;
+
+                    Console.WriteLine("Player attacks for " + playerAttack);
+                    Console.WriteLine("Enemy has: " + enemyHealth + " HP left");
+                    Console.WriteLine("You have: " + remainingHealth + " HP left");
                     Console.WriteLine("Enemy has: " + enemyRemainingHealth + " HP left");
 
                     if (health <= 0)
                     {
+                        _ = health + 100;
                         lives = lives - 1;
-                        health = 100;
                     }
                     if (enemyRemainingHealth <= 0)
                     {
@@ -212,16 +253,12 @@ namespace HudVariables
                         return;
                     }
                 }
-                    void ShowHud()
-                {
-                    Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Score Multiplier " + scoreMult);
-                    Console.WriteLine(                                                        "LEVEL " + level );
+                
 
-                }
-            }
-            // score = score + enemyValue ||  score+= enemyValue;
+                // score = score + enemyValue ||  score+= enemyValue; && == and
 
 
+            } 
         }
 
 
