@@ -11,10 +11,7 @@ namespace HudVariables
     class Questions
     {
         /* Int declarations */
-        public int score; public int health; public int playerDamage;
-        public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
-        public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
-        public int enemyRemainingHealth;
+        public static int level = 0;
         /* String declarations */
         public string question; public string correctAnswer; public string userAnswer; public string studioName;
         public string finalAnswer; public string playerName;
@@ -22,7 +19,7 @@ namespace HudVariables
         static float scoreMult; static float lives;
         /* Bool declarations */
         public static ConsoleKeyInfo input;
-        private static Random randomResult;
+        
 
         public Questions(string aQuestion, string aCorrectAnswer)
         {
@@ -108,13 +105,13 @@ namespace HudVariables
                 scoreMult = 2.0f;
                 lives = 3;
                 playerDamage = 9;
-                Program.Notmain();
             }
+                Program.Notmain();
         }
 
-        /// <summary>
+        // Class Divide 
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// </summary>
+        // Class Divide
         internal class Program
         {
 
@@ -125,8 +122,7 @@ namespace HudVariables
             public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
             public int enemyRemainingHealth;
             /* String declarations */
-            public string question; public string correctAnswer; public string userAnswer; public string studioName;
-            public string finalAnswer; public string playerName;
+            
             /* Float declarations */
             static float scoreMult; static float lives;
             /* Bool declarations */
@@ -136,7 +132,7 @@ namespace HudVariables
 
 
              public static void Notmain()
-            {
+             {
                 /* Int initializations */
                 int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
                 /* String initializations*/
@@ -149,7 +145,7 @@ namespace HudVariables
                 Console.WriteLine();
                 int activeWeapon = Stick;
                 Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
-                Console.WriteLine("Press 'E' to Attack");
+                Console.WriteLine("Press 'E' to Attack or press 'Q' to Talk");
                 KeyInput();
                 Console.ReadKey();
                 Console.Clear();
@@ -168,17 +164,20 @@ namespace HudVariables
                     {
 
                         case ConsoleKey.E:
-                            {
+                        {
                                 Console.WriteLine("check check");
-                                Combat();
+                               // Combat(); this gets this error || An object reference is required for the nonstatic field, method, or property || Solve this later
 
-                            }
+                        }
                             break;
 
                         case ConsoleKey.Q:
+                        {
                             Talk();
 
                             break;
+
+                        }
 
 
                     }
@@ -186,10 +185,35 @@ namespace HudVariables
 
                 void Talk()
                 {
-                    Console.WriteLine("You make a deal and recive a ");
+                    Random rnd = new Random();
+                    int randomDialogue = rnd.Next(1, 20);
+                    Console.WriteLine("You make a deal and recive ");
+
+                   
+                    if (1 <= randomDialogue && randomDialogue <= 5)
+                    {
+                    Console.WriteLine("range of 1 - 7");
+                    }
+                        
+                    if (6 <= randomDialogue && randomDialogue <= 10)
+                    {
+                    Console.WriteLine("range of 8 - 15");
+                    }
+       
+                    if (11 <= randomDialogue && randomDialogue <= 20)
+                    {
+                    Console.WriteLine("rane of 16 - 20");
+                    }
+                        
+
+                    
+
+                }       
+
+             }
 
 
-                }
+
 
                 void ShowHud()
                 {
@@ -198,7 +222,7 @@ namespace HudVariables
 
                 }
 
-                bool Combat()
+                public bool Combat()
                 {
                     if (enemyHealth <= 0)
                     {
@@ -263,8 +287,8 @@ namespace HudVariables
 
 
 
-    }
-}
+ }
+
        
 
         
