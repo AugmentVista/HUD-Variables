@@ -10,16 +10,21 @@ namespace HudVariables
 {
     class Questions
     {
+        #region Declarations
         /* Int declarations */
         public static int level = 0;
         /* String declarations */
-        public string question; public string correctAnswer; public string userAnswer; public string studioName;
-        public string finalAnswer; public string playerName;
+        public string question; 
+        public string correctAnswer; 
+        public string userAnswer; 
+        public string studioName;
+        public string finalAnswer; 
+        public string playerName;
         /* Float declarations */
         static float scoreMult; static float lives;
         /* Bool declarations */
         public static ConsoleKeyInfo input;
-        
+        #endregion
 
         public Questions(string aQuestion, string aCorrectAnswer)
         {
@@ -106,18 +111,19 @@ namespace HudVariables
                 lives = 3;
                 playerDamage = 9;
             }
-                Program.Notmain();
+            Program.Notmain();
         }
+    }
 
         // Class Divide 
         /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Class Divide
-        internal class Program
+        class Program
         {
 
-
-            /* Int declarations */
-            public int score; public int health; public int playerDamage;
+        #region Declarations
+        /* Int declarations */
+        public int score; public int health; public int playerDamage;
             public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
             public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
             public int enemyRemainingHealth;
@@ -128,10 +134,10 @@ namespace HudVariables
             /* Bool declarations */
             public static ConsoleKeyInfo input;
             private static Random randomResult;
+        #endregion
 
 
-
-             public static void Notmain()
+        public static void Notmain()
              {
                 /* Int initializations */
                 int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
@@ -202,7 +208,7 @@ namespace HudVariables
        
                     if (11 <= randomDialogue && randomDialogue <= 20)
                     {
-                    Console.WriteLine("rane of 16 - 20");
+                    Console.WriteLine("range of 16 - 20");
                     }
                         
 
@@ -282,12 +288,9 @@ namespace HudVariables
                 // score = score + enemyValue ||  score+= enemyValue; && == and
 
 
-            } 
-        }
+        } 
+}
 
-
-
- }
 
        
 
