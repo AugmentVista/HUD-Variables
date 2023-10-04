@@ -32,7 +32,7 @@ namespace HudVariables
             correctAnswer = aCorrectAnswer;
         }
 
-        // Checks if the answer is either easy medium or hard
+       
         public bool ValidateAnswer(string aUserAnswer)
         {
             if (aUserAnswer == "easy" || aUserAnswer == "medium" || aUserAnswer == "hard")
@@ -72,8 +72,7 @@ namespace HudVariables
             Console.ReadKey();
             Console.WriteLine("Begin!");
             Console.ReadKey();
-            // string hard after difficulty string is needed to provide an arguement that corresponds to aCorrectAnswer
-            Questions firstQuestion = new Questions("Please select your difficulty", "hard");
+            Questions firstQuestion = new Questions("Please select your difficulty", "hard");  // string hard after difficulty string is needed to provide an arguement that corresponds to aCorrectAnswer
             Console.WriteLine(firstQuestion.question);
             Console.WriteLine("----");
             Console.WriteLine("easy");
@@ -138,7 +137,7 @@ namespace HudVariables
 
 
         public static void Notmain()
-             {
+        {
                 /* Int initializations */
                 int score = 0; int health = 0; int playerDamage = 0; int enemyHealth = level * 3;
                 /* String initializations*/
@@ -147,11 +146,11 @@ namespace HudVariables
                 float scoreMult = 1.00f; float lives = 1.00f;
 
 
-                Console.WriteLine("You begin your journey with a sturdy stick and a smile on your face.");
+                Console.WriteLine("You begin your journey with a sturdy stick");
                 Console.WriteLine();
                 int activeWeapon = Stick;
                 Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
-                Console.WriteLine("Press 'E' to Attack or press 'Q' to Talk");
+                Console.WriteLine("Press 'E' to Attack or press 'Q' to give them mercy");
                 KeyInput();
                 Console.ReadKey();
                 Console.Clear();
@@ -179,7 +178,7 @@ namespace HudVariables
 
                         case ConsoleKey.Q:
                         {
-                            Talk();
+                            Mercy();
 
                             break;
 
@@ -189,7 +188,14 @@ namespace HudVariables
                     }
                 }
 
-                void Talk()
+            void Mercy() 
+            {
+                Console.WriteLine("You have mercy on your enemy allowing them to escape");
+            }
+
+
+
+                /*void Talk()
                 {
                     Random rnd = new Random();
                     int randomDialogue = rnd.Next(1, 20);
@@ -210,11 +216,8 @@ namespace HudVariables
                     {
                     Console.WriteLine("range of 16 - 20");
                     }
-                        
 
-                    
-
-                }       
+                }*/       
 
              }
 
@@ -243,8 +246,6 @@ namespace HudVariables
                     Console.WriteLine("You've beaten the Enemy");
                     return true;
                 }
-
-
                 void Attack()
                 {
                     Console.WriteLine("is this working");
@@ -284,6 +285,8 @@ namespace HudVariables
                     }
                 }
                 
+        
+
 
                 // score = score + enemyValue ||  score+= enemyValue; && == and
 
