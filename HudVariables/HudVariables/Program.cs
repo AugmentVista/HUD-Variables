@@ -88,9 +88,8 @@ namespace HudVariables
             }
             Console.ReadLine();
             // End of difficulty question
-
-            Console.WriteLine("You have selected " + answer);
             Console.ReadKey();
+            Console.WriteLine("You have selected " + answer);
             if (answer == "easy")
             {
                 scoreMult = 1.00f;
@@ -146,9 +145,9 @@ namespace HudVariables
             float scoreMult = 1.00f; float lives = 3.00f;
 
 
-            Console.WriteLine("You begin your journey with a sturdy stick");
+           
             Console.WriteLine();
-            int activeWeapon = Stick;
+            //int activeWeapon = Stick;
             Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
             KeyInput();
             Console.ReadKey();
@@ -219,7 +218,7 @@ namespace HudVariables
             void Combat()
             { 
                DealDamage(2);
-               TakeDamage(5);
+               TakeDamage(150);
                ShowHud();
                Console.ReadKey();
             }
