@@ -73,17 +73,33 @@ namespace HudVariables
             ShowHUD();
             DealDamage(25);
             ShowHUD();
+            TakeDamage(-5);
+            ShowHUD();
             DealDamage(25);
             ShowHUD();
             TakeDamage(150);
             ShowHUD();
             Heal(50);
             ShowHUD();
+            Heal(-10);
+            ShowHUD();
+            Heal(200);
+            ShowHUD();
             RegenerateShield(50);
+            ShowHUD();
+            RegenerateShield(-10);
             ShowHUD();
             TakeDamage(200);
             Revive();
+            TakeDamage(200);
             ShowHUD();
+            Revive();
+            TakeDamage(200);
+            ShowHUD();
+            TakeDamage(200);
+            ShowHUD();
+            Revive();
+            LivesCheck();
             ResetGame();
         }
 
@@ -91,6 +107,7 @@ namespace HudVariables
         {
             if (Shield <= -1)
             {
+                Console.WriteLine("Player tried to gain " + Shield + " shields");
                 Console.WriteLine("You cannot gain a negative amount of shield");
                 return;
             }
@@ -110,12 +127,17 @@ namespace HudVariables
         {
             if (Health <= -1)
             {
+                Console.WriteLine("Player tried to gain " + Health + " health");
                 Console.WriteLine("You cannot gain a negative amount of health");
                 return;
             }
             if (health <= 100)
             {
                 Console.WriteLine("You have gained " + Health + " health");
+            if (Health >= 100)
+            { 
+                Console.WriteLine("You cannot have more than 100 health"); 
+            }
                 health = health + Health;
                 if (health >= 100)
                 {
@@ -135,7 +157,7 @@ namespace HudVariables
             {
                 health = 0;
                 shield = 0;
-                Console.WriteLine(playername + " has died");
+                Console.WriteLine(playername + " HAS DIED ");
             }
         }
 
@@ -164,12 +186,13 @@ namespace HudVariables
         {
             if (damage <= -1)
             {
+                Console.WriteLine("Player tried to take " + damage + " damage");
                 Console.WriteLine("You cannot take a negative amount of damage");
                 return;
             }
 
 
-            Console.WriteLine("You have taken " + damage +" Damage");
+            Console.WriteLine("You have taken " + damage +" damage");
             shield = shield - damage;
             if (shield <= 0)
             {
