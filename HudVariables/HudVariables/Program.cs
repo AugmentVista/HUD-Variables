@@ -5,87 +5,32 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace HudVariables
 {
-    class Questions
+    public class TextRPG
     {
-            #region Declarations
-        /* Int declarations */
-        public static int level = 0;
-        /* String declarations */
-        public string question;
-        public string correctAnswer;
-        public string userAnswer;
-        public string studioName;
-        public string finalAnswer;
-        public string playerName;
-        /* Float declarations */
-        static float scoreMult; static float lives;
-        /* Bool declarations */
-        public static ConsoleKeyInfo input;
-        #endregion
-            #region Declarations2
-        /* Int declarations */
-        public int score; public int health; public int Damage;
-        public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
-        public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
+        #region Declarations
+
+        static int lives = 3;
+        public static int level = 1;
+        public int score = 0;
+        public int health = 100;
+        public int Damage = 0;
+        public static int enemyDamage;
+        public int enemyHealth = 50;
         public int enemyRemainingHealth;
-        /* String declarations */
-
-        /* Float declarations */
-        static float scoreMult; static float lives;
-        /* Bool declarations */
-        public static ConsoleKeyInfo input;
-        private static Random randomResult;
+        public int shield = 100;
+        public int leftOverDamage;
+        public static int scoreMult = 1 * level;
+        public string playername;
         #endregion
-            /* Int initializations */
-            int score = 0; int health = 100; int Damage = 0; int enemyHealth = level * 10; int damage; int shield = 100;
-            int test = 66;
-            /* String initializations*/
-            string studioName = "NameWasTakenStudios"; string playerName;
-            /* Float initializations */
-            float scoreMult = 1.00f; float lives = 3.00f;
 
-
-
-
-
-        public Questions(string aQuestion, string aCorrectAnswer)
+        public static void Main(string[] args)
         {
-            question = aQuestion;
-            correctAnswer = aCorrectAnswer;
-        }
-
-        public bool ValidateAnswer(string aUserAnswer)
-        {
-            if (aUserAnswer == "easy" || aUserAnswer == "medium" || aUserAnswer == "hard")
-            {
-                return true;
-            }
-            Console.WriteLine("Invalid answer.");
-            Console.WriteLine("Please choose between \"easy\", \"medium\" or \"hard\".");
-            return false;
-        }
-
-        //checks that the answer given by the user is acceptable
-        public bool VerifyAnswer(string aUserAnswer)
-        {
-            return aUserAnswer == correctAnswer;
-        }
-
-        static void Main(string[] args)
-        {
-            /* Int initializations */
-            int Damage = 0;
-            /* String initializations*/
-            string studioName = "NameWasTakenStudios"; string playerName;
-            /* Float initializations */
-            float scoreMult = 1.00f; int lives = 3;
-
-
-            // Opening phrases to player
-
+            string studioName = "NameWasTakenStudios";
+            string playerName;
             Console.WriteLine("Brought to you by " + studioName);
             Console.WriteLine();
             Console.WriteLine();
@@ -94,143 +39,156 @@ namespace HudVariables
             Console.ReadLine();
             Console.WriteLine("Hello " + playerName);
             Console.WriteLine("Begin!");
-            Console.ReadKey();
-            Questions firstQuestion = new Questions("Please select your difficulty", "hard");  // string hard after difficulty string is needed to provide an arguement that corresponds to aCorrectAnswer
-            Console.WriteLine(firstQuestion.question);
-            Console.WriteLine("----");
-            Console.WriteLine("easy");
-            Console.WriteLine("medium");
-            Console.WriteLine("hard");
-            Console.Write("Your answer is: ");
+            Begin();
+        }
 
-            string answer = Console.ReadLine().ToLower();
-            while (!firstQuestion.ValidateAnswer(answer))
-            {
-                answer = Console.ReadLine().ToLower();
-                string finalAnswer = Console.ReadLine();
+        void ResetGame()
+        {
+        Console.WriteLine("Your progress has been reset");
+        scoreMult = 1;
+        lives = 3;
+        level = 1;
+        score = 0;
+        health = 100;
+        Damage = 0;
+        enemyDamage = 0;
+        enemyHealth = 50;
+        enemyRemainingHealth = 0;
+        shield = 100;
+        leftOverDamage = 0;
+        ShowHUD();
+        }
 
-            }
-            Console.ReadLine();
-            // End of difficulty question
-            Console.ReadKey();
-            Console.WriteLine("You have selected " + answer);
-            if (answer == "easy")
+
+        public static void Begin()
+        {
+            TextRPG game = new TextRPG();
+            game.Start(); 
+        }
+        
+        public void Start()
+        {
+            ShowHUD();
+            TakeDamage(5);
+            ShowHUD();
+            DealDamage(25);
+            ShowHUD();
+            DealDamage(25);
+            ShowHUD();
+            TakeDamage(150);
+            ShowHUD();
+            Heal(50);
+            ShowHUD();
+            RegenerateShield(50);
+            ShowHUD();
+            TakeDamage(200);
+            Revive();
+            ShowHUD();
+            ResetGame();
+        }
+
+        void RegenerateShield(int Shield)
+        {
+            if (Shield <= -1)
             {
-                scoreMult = 1.00f;
-                lives = 5;
-                Damage = 2;
+                Console.WriteLine("You cannot gain a negative amount of shield");
+                return;
             }
-            else if (answer == "medium")
+            if (shield <= 100)
             {
-                scoreMult = 1.5f;
-                lives = 4;
-                Damage = 7;
+                Console.WriteLine("You have gained " + Shield + " shields");
+                shield = shield + Shield;
             }
-            else if (answer == "hard")
+            else if (shield >= 100)
             {
-                scoreMult = 2.0f;
-                lives = 3;
-                Damage = 5;
+                shield = 100;
+                Console.WriteLine("You cannot have greater than 100 shield");
+            }
+
+        }
+        void Heal(int Health)
+        {
+            if (Health <= -1)
+            {
+                Console.WriteLine("You cannot gain a negative amount of health");
+                return;
+            }
+            if (health <= 100)
+            {
+                Console.WriteLine("You have gained " + Health + " health");
+                health = health + Health;
+                if (health >= 100)
+                {
+                    health = 100;
+                }
+            }
+            else if (health >= 100)
+            {
+                health = 100;
+                Console.WriteLine("You cannot have greater than 100 health");
             }
         }
-             void Heal(int Health)
-             {
-                if (health <= 100)
-                {
-                    health = health + Health;
-                }
-                else
-                    Console.WriteLine("You cannot have greater than 100 health");
-             }
 
-            void LivesCheck()
+        void LivesCheck()
+        {
+            if (lives <= 0)
             {
-                if (lives <= 0)
+                health = 0;
+                shield = 0;
+                Console.WriteLine(playername + " has died");
+            }
+        }
+
+        void Revive()
+        {
+            Console.WriteLine("You've lost a life, your health and shields have been restored");
+            lives--;
+            health = 100;
+            shield = 100;
+        }
+
+        void DealDamage(int damage)
+        {
+            Console.WriteLine("You have Dealt " + damage + " damage");
+            enemyHealth -= damage;
+            if (enemyHealth <= 0)
+            {
+                score += 100;
+                level++;
+                Console.WriteLine("You have slain an enemy");
+            }
+        }
+
+        void TakeDamage(int damage)
+
+        {
+            if (damage <= -1)
+            {
+                Console.WriteLine("You cannot take a negative amount of damage");
+                return;
+            }
+
+
+            Console.WriteLine("You have taken " + damage +" Damage");
+            shield = shield - damage;
+            if (shield <= 0)
+            {
+                health = health + shield;
+                if (health <= 0)
                 {
                     health = 0;
-                    shield = 0;
-                    Console.WriteLine("You Lose");
-                    Console.WriteLine("You Lose");
-                    Console.WriteLine("You Lose");
+                    //Revive();
                 }
+                LivesCheck();
+                shield = 0;
             }
-
-            void LifeReset()
-            {
-                lives--;
-                health = health + 100;
-                shield = shield + 100;
-            }
-
-            void DealDamage(int damage)
-            {
-                enemyHealth -= damage * Damage;
-                if (enemyHealth <= 0)
-                {
-                    score += 100;
-                    level++;
-                    Console.WriteLine("                                                             Next Level");
-                }
-            }
-
-            void TakeDamage(int damage)
-            {
-                shield -= damage;
-                if (shield <= 0)
-                {
-                    health -= damage;
-                    shield = 0;
-                    if (health < 0)
-                    {
-                        health = 0;
-                        LifeReset();
-
-                    }
-                    LivesCheck();
-                }
-            }
-
-            void ShowHud()
-            {
-                Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Score Multiplier " + scoreMult);
-                Console.WriteLine("LEVEL " + level);
-
-            }
-
-            void Combat()
-            { 
-               DealDamage(10);
-               TakeDamage(15);
-               ShowHud();
-               Console.ReadKey();
-            }
-            
-        void KeyInput()
+        }
+        void ShowHUD()
         {
-                Console.WriteLine("Press 'Q' to attack or 'E' to heal");
-                input = Console.ReadKey(true);
-                switch (input.Key)
-                {
-                    case ConsoleKey.E:
-                        {
-                            Heal(40);
-                            ShowHud();
-                            Console.ReadKey();
-                        }
-                        break;
-                    case ConsoleKey.Q:
-                        {
-                            if (enemyHealth >= 0)
-                            {
-                                Combat();
-                            }
-                            else 
-                            {
-                                return;
-                            }
-                            break;
-                        }
-                }
-        } 
+            Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Score Multiplier " + scoreMult);
+            Console.WriteLine("LEVEL " + level);
+            Console.ReadKey();
 
-    }      
+        }
+    }
+}
