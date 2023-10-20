@@ -10,7 +10,7 @@ namespace HudVariables
 {
     class Questions
     {
-        #region Declarations
+            #region Declarations
         /* Int declarations */
         public static int level = 0;
         /* String declarations */
@@ -25,13 +25,37 @@ namespace HudVariables
         /* Bool declarations */
         public static ConsoleKeyInfo input;
         #endregion
+            #region Declarations2
+        /* Int declarations */
+        public int score; public int health; public int Damage;
+        public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
+        public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
+        public int enemyRemainingHealth;
+        /* String declarations */
+
+        /* Float declarations */
+        static float scoreMult; static float lives;
+        /* Bool declarations */
+        public static ConsoleKeyInfo input;
+        private static Random randomResult;
+        #endregion
+            /* Int initializations */
+            int score = 0; int health = 100; int Damage = 0; int enemyHealth = level * 10; int damage; int shield = 100;
+            int test = 66;
+            /* String initializations*/
+            string studioName = "NameWasTakenStudios"; string playerName;
+            /* Float initializations */
+            float scoreMult = 1.00f; float lives = 3.00f;
+
+
+
+
 
         public Questions(string aQuestion, string aCorrectAnswer)
         {
             question = aQuestion;
             correctAnswer = aCorrectAnswer;
         }
-
 
         public bool ValidateAnswer(string aUserAnswer)
         {
@@ -108,63 +132,17 @@ namespace HudVariables
                 lives = 3;
                 Damage = 5;
             }
-            Program.Notmain();
         }
-    }
-
-    // Class Divide 
-    /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Class Divide
-    class Program
-    {
-
-        #region Declarations
-        /* Int declarations */
-        public int score; public int health; public int Damage;
-        public static int selectedDifficulty; public static int enemyDamage; public static int level = 1;
-        public static int activeWeapon; public static int Stick = 2; public int enemyHealth;
-        public int enemyRemainingHealth;
-        /* String declarations */
-
-        /* Float declarations */
-        static float scoreMult; static float lives;
-        /* Bool declarations */
-        public static ConsoleKeyInfo input;
-        private static Random randomResult;
-        #endregion
-
-
-        public static void Notmain()
-        {
-            /* Int initializations */
-            int score = 0; int health = 100; int Damage = 0; int enemyHealth = level * 10; int damage; int shield = 100;
-            int test = 66;
-            /* String initializations*/
-            string studioName = "NameWasTakenStudios"; string playerName;
-            /* Float initializations */
-            float scoreMult = 1.00f; float lives = 3.00f;
-
-
-           
-            Console.WriteLine();
-            //int activeWeapon = Stick;
-            Console.WriteLine("before you stands your first enemy, a goblin that stole your lunch");
-            KeyInput();
-            Console.ReadKey();
-            //Console.Clear();
-            KeyInput();
-            Console.WriteLine("end of code");
-            Console.ReadKey();
-
-            void Heal(int Health)
-            {
+             void Heal(int Health)
+             {
                 if (health <= 100)
                 {
                     health = health + Health;
                 }
                 else
                     Console.WriteLine("You cannot have greater than 100 health");
-            }
+             }
+
             void LivesCheck()
             {
                 if (lives <= 0)
@@ -176,12 +154,14 @@ namespace HudVariables
                     Console.WriteLine("You Lose");
                 }
             }
+
             void LifeReset()
             {
                 lives--;
                 health = health + 100;
                 shield = shield + 100;
             }
+
             void DealDamage(int damage)
             {
                 enemyHealth -= damage * Damage;
@@ -192,6 +172,7 @@ namespace HudVariables
                     Console.WriteLine("                                                             Next Level");
                 }
             }
+
             void TakeDamage(int damage)
             {
                 shield -= damage;
@@ -208,6 +189,7 @@ namespace HudVariables
                     LivesCheck();
                 }
             }
+
             void ShowHud()
             {
                 Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Score Multiplier " + scoreMult);
@@ -217,16 +199,14 @@ namespace HudVariables
 
             void Combat()
             { 
-               DealDamage(2);
-               TakeDamage(150);
+               DealDamage(10);
+               TakeDamage(15);
                ShowHud();
                Console.ReadKey();
             }
-
-
-            // Various Methods
-            void KeyInput()
-            {
+            
+        void KeyInput()
+        {
                 Console.WriteLine("Press 'Q' to attack or 'E' to heal");
                 input = Console.ReadKey(true);
                 switch (input.Key)
@@ -251,65 +231,6 @@ namespace HudVariables
                             break;
                         }
                 }
-            }
-        }
-    }
-}
+        } 
 
-            
-    
-
-
-
-
-
-
-
-
-
-
-                /*void Attack()
-                {
-                    Console.WriteLine("is this working");
-                    Random rnd = new Random();
-
-
-                    int playerAttack = rnd.Next(1, 20) + Damage + activeWeapon;
-                    int enemyRemainingHealth = enemyHealth -= playerAttack;
-                    int enemyAttack = rnd.Next(1, 10) + enemyDamage;
-                    int remainingHealth = health -= enemyAttack;
-
-
-                    Console.WriteLine("Player attacks for " + playerAttack);
-                    Console.WriteLine("Enemy has: " + enemyHealth + " HP left");
-                    Console.WriteLine("You have: " + remainingHealth + " HP left");
-                    Console.WriteLine("Enemy has: " + enemyRemainingHealth + " HP left");
-
-                    if (health <= 0)
-                    {
-                        lives = lives - 1;
-                        _ = health + 100;
-                    }
-                    if (enemyRemainingHealth <= 0)
-                    {
-                        enemyRemainingHealth = 0;
-                    }
-                    
-                    if (enemyHealth == 0)
-                    {
-                        
-                        return;
-                    }
-                }
-                */
-        
-
-
-
-       
-
-        
-
-        
-
-       
+    }      
