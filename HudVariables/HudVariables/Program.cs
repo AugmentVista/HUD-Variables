@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Numerics;
 
 
 namespace HudVariables
@@ -13,33 +14,37 @@ namespace HudVariables
     {
         #region Declarations
 
-        static int lives = 3;
+        
+        public static int lives = 3; // having these as static means that other scripts can change them
         public static int level = 1;
         public int score = 0;
-        public int health = 100;
-        public int Damage = 0;
+        public static int health = 100;
+        public static int Damage = 0;
         public static int enemyDamage;
-        public int enemyHealth = 50;
+        public static int enemyHealth = 50;
         public int enemyRemainingHealth;
-        public int shield = 100;
+        public static int shield = 100;
         public int leftOverDamage;
         public static int scoreMult = 1 * level;
         public string playername;
+        Enemies Enemy = new Enemies();
+        PlayerClasses1 player = new PlayerClasses1();
         #endregion
 
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            UnitTestHealthSystem();
-            /*string studioName = "NameWasTakenStudios";
+            PlayerClasses1 player = new PlayerClasses1();
+            string studioName = "NameWasTakenStudios";
             string playerName;
             Console.WriteLine("Brought to you by " + studioName);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Welcome player please enter your name");
             playerName = Console.ReadLine();
-            Console.ReadLine();
             Console.WriteLine("Hello " + playerName);
-            Console.WriteLine("Begin!");*/
+            Console.WriteLine("Begin!");
+            player.KeyInput();
+            Begin();
         }
 
         void ResetGame()
@@ -68,7 +73,12 @@ namespace HudVariables
         
         public void Start()
         {
+            
             ShowHUD();
+            Enemy.SpawnEnemy(1);
+            Enemy.ShowEnemyHUD();
+            Enemy.SpawnEnemy(2);
+            Enemy.ShowEnemyHUD();
             TakeDamage(5);
             ShowHUD();
             DealDamage(25);
@@ -123,7 +133,7 @@ namespace HudVariables
             }
 
         }
-        void Heal(int Health)
+        public void Heal(int Health)
         {
             if (Health <= -1)
             {
@@ -172,7 +182,7 @@ namespace HudVariables
         void DealDamage(int damage)
         {
             Console.WriteLine("You have Dealt " + damage + " damage");
-            enemyHealth -= damage;
+            enemyHealth -= (damage + Damage); // () needed for order of operations
             if (enemyHealth <= 0)
             {
                 score += 100;
@@ -206,146 +216,14 @@ namespace HudVariables
                 shield = 0;
             }
         }
-        void ShowHUD()
+        public void ShowHUD()
         {
-            Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Score Multiplier " + scoreMult);
+            Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Bonus Damage " + Damage);
             Console.WriteLine("LEVEL " + level);
             Console.ReadKey();
 
         }
-        static void UnitTestHealthSystem()
-        {
-	        Debug.WriteLine("Unit testing Health System started...");
-
-	        // TakeDamage()
-
-	        // TakeDamage() - only shield
-	        shield = 100;
-	        health = 100;
-	        lives = 3;
-	        TakeDamage(10);
-	        Debug.Assert(shield == 90);
-	        Debug.Assert(health == 100);
-	        Debug.Assert(lives == 3);
-
-	        // TakeDamage() - shield and health
-	        shield = 10;
-	        health = 100;
-	        lives = 3;
-	        TakeDamage(50);
-	        Debug.Assert(shield == 0);
-	        Debug.Assert(health == 60);
-	        Debug.Assert(lives == 3);
-
-	        // TakeDamage() - only health
-	        shield = 0;
-	        health = 50;
-	        lives = 3;
-	        TakeDamage(10);
-	        Debug.Assert(shield == 0);
-	        Debug.Assert(health == 40);
-	        Debug.Assert(lives == 3);
-
-	        // TakeDamage() - health and lives
-	        shield = 0;
-	        health = 10;
-	        lives = 3;
-	        TakeDamage(25);
-	        Debug.Assert(shield == 0);
-	        Debug.Assert(health == 0);
-	        Debug.Assert(lives == 3);
-
-	        // TakeDamage() - shield, health, and lives
-	        shield = 5;
-	        health = 100;
-	        lives = 3;
-	        TakeDamage(110);
-	        Debug.Assert(shield == 0);
-	        Debug.Assert(health == 0);
-	        Debug.Assert(lives == 3);
-
-	        // TakeDamage() - negative input
-	        shield = 50;
-	        health = 50;
-	        lives = 3;
-	        TakeDamage(-10);
-	        Debug.Assert(shield == 50);
-	        Debug.Assert(health == 50);
-	        Debug.Assert(lives == 3);
-
-	        // Heal()
-	
-	        // Heal() - normal
-	        shield = 0;
-	        health = 90;
-	        lives = 3;
-	        Heal(5);
-	        Debug.Assert(shield == 0);
-	        Debug.Assert(health == 95);
-	        Debug.Assert(lives == 3);
-
-	        // Heal() - already max health
-	        shield = 90;
-	        health = 100;
-	        lives = 3;
-	        Heal(5);
-	        Debug.Assert(shield == 90);
-	        Debug.Assert(health == 100);
-	        Debug.Assert(lives == 3);
-	
-	        // Heal() - negative input
-	        shield = 50;
-	        health = 50;
-	        lives = 3;
-	        Heal(-10);
-	        Debug.Assert(shield == 50);
-	        Debug.Assert(health == 50);
-	        Debug.Assert(lives == 3);
-
-	        // RegenerateShield()
-
-	        // RegenerateShield() - normal
-	        shield = 50;
-	        health = 100;
-	        lives = 3;
-	        RegenerateShield(10);
-	        Debug.Assert(shield == 60);
-	        Debug.Assert(health == 100);
-	        Debug.Assert(lives == 3);
-
-	        // RegenerateShield() - already max shield
-	        shield = 100;
-	        health = 100;
-	        lives = 3;
-	        RegenerateShield(10);
-	        Debug.Assert(shield == 100);
-	        Debug.Assert(health == 100);
-	        Debug.Assert(lives == 3);
-
-	        // RegenerateShield() - negative input
-	        shield = 50;
-	        health = 50;
-	        lives = 3;
-	        RegenerateShield(-10);
-	        Debug.Assert(shield == 50);
-	        Debug.Assert(health == 50);
-	        Debug.Assert(lives == 3);
-
-	        // Revive()
-
-	        // Revive()
-	        shield = 0;
-	        health = 0;
-	        lives = 2;
-	        Revive();
-	        Debug.Assert(shield == 100);
-	        Debug.Assert(health == 100);
-	        Debug.Assert(lives == 1);
-
-	        Debug.WriteLine("Unit testing Health System completed.");
-	        Console.Clear();
-        }
-
+        
 
     }
 }
