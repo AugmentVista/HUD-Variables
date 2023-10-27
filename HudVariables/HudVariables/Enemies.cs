@@ -33,7 +33,7 @@ namespace HudVariables
             }
             else if (EnemyLevel == 4)
             {
-                enemyHealth =300;
+                enemyHealth = 300;
                 enemyDamage = 300;
             }
             else if (EnemyLevel == 5)
@@ -44,12 +44,21 @@ namespace HudVariables
 
         }
 
+        public int CalculateEnemyValue()
+        {
+            return enemyHealth + enemyDamage;
+        }
+
 
         public void ShowEnemyHUD()
         {
-            Console.WriteLine("Value " + enemyHealth + enemyDamage + " Enemy Health: " + enemyHealth + " Enemy Damage" + enemyDamage);
+            {
+                int enemyValue = CalculateEnemyValue();
+                Console.WriteLine("Value " + enemyValue + " Enemy Health: " + enemyHealth + " Enemy Damage " + enemyDamage);
+
+
+            }
 
         }
-
-    } 
+    }
 }

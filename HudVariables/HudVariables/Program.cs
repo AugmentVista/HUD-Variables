@@ -27,8 +27,6 @@ namespace HudVariables
         public int leftOverDamage;
         public static int scoreMult = 1 * level;
         public string playername;
-        Enemies Enemy = new Enemies();
-        PlayerClasses1 player = new PlayerClasses1();
         #endregion
 
         static void Main(string[] args)
@@ -73,11 +71,13 @@ namespace HudVariables
         
         public void Start()
         {
-            
+            Enemies Enemy = new Enemies();
             ShowHUD();
             Enemy.SpawnEnemy(1);
+            Console.WriteLine("Show HUD for level 1 Enemy ");
             Enemy.ShowEnemyHUD();
             Enemy.SpawnEnemy(2);
+            Console.WriteLine("Show HUD for level 2 Enemy ");
             Enemy.ShowEnemyHUD();
             TakeDamage(5);
             ShowHUD();
