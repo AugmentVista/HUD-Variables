@@ -100,15 +100,6 @@ namespace HudVariables
                 DealDamage(Damage);
             }
         }
-    
-
-
-       
-        
-       
-      
-
-      
 
         void DealDamage(int damage)
         {

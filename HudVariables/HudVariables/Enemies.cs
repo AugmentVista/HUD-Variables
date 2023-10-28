@@ -10,11 +10,6 @@ namespace HudVariables
     {
         public static int NumberOfEnemyAttacks;
 
-        // what do enemies need? 
-        //
-        // they need a health variable, they need a damage variable, they need the ability to attack, they need the ability to die
-
-
 
         public void SpawnEnemy(int EnemyLevel)
         {
@@ -57,9 +52,5 @@ namespace HudVariables
                 Console.WriteLine(" Enemy Health: " + enemyHealth + " Enemy Damage " + enemyDamage);
             }
         }
-
-
-
-
     }
 }
