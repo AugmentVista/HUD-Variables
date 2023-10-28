@@ -8,6 +8,8 @@ namespace HudVariables
 {
     public class Enemies : TextRPG
     {
+        public static int NumberOfEnemyAttacks;
+
         // what do enemies need? 
         //
         // they need a health variable, they need a damage variable, they need the ability to attack, they need the ability to die
@@ -18,47 +20,46 @@ namespace HudVariables
         {
             if (EnemyLevel == 1)
             {
+                NumberOfEnemyAttacks = 2;
                 enemyHealth = 50;
-                enemyDamage = 50;
+                enemyDamage = 5;
             }
             else if (EnemyLevel == 2)
             {
+                NumberOfEnemyAttacks = 2;
                 enemyHealth = 100;
-                enemyDamage = 100;
+                enemyDamage = 15;
             }
             else if (EnemyLevel == 3)
             {
+                NumberOfEnemyAttacks = 3;
                 enemyHealth = 200;
-                enemyDamage = 200;
+                enemyDamage = 25;
             }
             else if (EnemyLevel == 4)
             {
+                NumberOfEnemyAttacks = 3;
                 enemyHealth = 300;
-                enemyDamage = 300;
+                enemyDamage = 40;
             }
             else if (EnemyLevel == 5)
             {
+                NumberOfEnemyAttacks = 4;
                 enemyHealth = 400;
-                enemyDamage = 400;
+                enemyDamage = 50;
             }
 
         }
-
-        public int CalculateEnemyValue()
-        {
-            return enemyHealth + enemyDamage;
-        }
-
 
         public void ShowEnemyHUD()
         {
             {
-                int enemyValue = CalculateEnemyValue();
-                Console.WriteLine("Value " + enemyValue + " Enemy Health: " + enemyHealth + " Enemy Damage " + enemyDamage);
-
-
+                Console.WriteLine(" Enemy Health: " + enemyHealth + " Enemy Damage " + enemyDamage);
             }
-
         }
+
+
+
+
     }
 }

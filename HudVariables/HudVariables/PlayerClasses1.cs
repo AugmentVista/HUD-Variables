@@ -8,7 +8,9 @@ namespace HudVariables
 {
     public class PlayerClasses1 : TextRPG
     {
+        public int characterChoice;
         private static ConsoleKeyInfo input;
+        public static Character SelectedCharacter;
 
 
         public void KeyInput()
@@ -38,28 +40,25 @@ namespace HudVariables
 
         void SetBarbarianStats()
         {
-            lives = 3;
-            health = 130;
-            Damage = 4;
-            shield = 80;
+            Random rnd = new Random();
+            Character barbarian = new Character(1, 2, 3, 130, rnd.Next(1, 20), 80);
+            SelectedCharacter = barbarian;
             Console.WriteLine("Barbarian Stats Set");
         }
 
         void SetGunSlingerStats()
         {
-            lives = 2;
-            health = 70;
-            Damage = 3;
-            shield = 70;
+            Random rnd = new Random();
+            Character gunslinger = new Character(2, 6, 2, 70, rnd.Next(1, 6), 70);
+            SelectedCharacter = gunslinger;
             Console.WriteLine("Gunslinger Stats Set");
         }
 
         void SetClownStats()
         {
-            lives = 4;
-            health = 90;
-            Damage = 2;
-            shield = 90;
+            Random rnd = new Random();
+            Character clown = new Character(3, 3, 4, 90, rnd.Next(3, 12), 90);
+            SelectedCharacter = clown;
             Console.WriteLine("Clown Stats Set");
         }
 

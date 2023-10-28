@@ -18,15 +18,16 @@ namespace HudVariables
         public static int lives = 3; // having these as static means that other scripts can change them
         public static int level = 1;
         public int score = 0;
-        public static int health = 100;
+        public int health = 100;
         public static int Damage = 0;
         public static int enemyDamage;
         public static int enemyHealth = 50;
         public int enemyRemainingHealth;
-        public static int shield = 100;
+        public int shield = 100;
         public int leftOverDamage;
         public static int scoreMult = 1 * level;
         public string playername;
+        
         #endregion
 
         static void Main(string[] args)
@@ -42,75 +43,113 @@ namespace HudVariables
             Console.WriteLine("Hello " + playerName);
             Console.WriteLine("Begin!");
             player.KeyInput();
+            Character playerCharacter = PlayerClasses1.SelectedCharacter;
             Begin();
         }
-
-        void ResetGame()
-        {
-        Console.WriteLine("Your progress has been reset");
-        scoreMult = 1;
-        lives = 3;
-        level = 1;
-        score = 0;
-        health = 100;
-        Damage = 0;
-        enemyDamage = 0;
-        enemyHealth = 50;
-        enemyRemainingHealth = 0;
-        shield = 100;
-        leftOverDamage = 0;
-        ShowHUD();
-        }
-
 
         public static void Begin()
         {
             TextRPG game = new TextRPG();
-            game.Start(); 
+            game.Start();
         }
-        
+
         public void Start()
         {
             Enemies Enemy = new Enemies();
-            ShowHUD();
+
             Enemy.SpawnEnemy(1);
-            Console.WriteLine("Show HUD for level 1 Enemy ");
+            ShowHUD();
+            Combat();
+            Combat();
+            Combat();
+        }
+
+        public void Combat()
+        {
+            ShowHUD();
+            Character playerCharacter = PlayerClasses1.SelectedCharacter;
+
+            Console.WriteLine("# of Attacks you have " + playerCharacter.PlayerAttacks);
+            Random rnd = new Random();
+            Console.WriteLine("# of Attacks you have0 " + playerCharacter.PlayerAttacks);
+            switch (playerCharacter.CharacterChoice)
+            {
+                case 1: 
+                    Damage += rnd.Next(1, 20);
+                    Console.WriteLine("# of Attacks you have1 " + playerCharacter.PlayerAttacks);
+                    break;
+
+                case 2: 
+                    Damage += rnd.Next(1, 6);
+                    Console.WriteLine("# of Attacks you have2 " + playerCharacter.PlayerAttacks);
+                    break;
+
+                case 3:
+                    Damage += rnd.Next(3, 12);
+                    Console.WriteLine("# of Attacks you have3 " + playerCharacter.PlayerAttacks);
+                    break;
+            }
+
+            for (int i = 0; i < Enemies.NumberOfEnemyAttacks; i++)
+            {
+                TakeDamage(enemyDamage);
+            }
+
+            for (int i = 0; i < playerCharacter.PlayerAttacks; i++)
+            {
+                DealDamage(Damage);
+            }
+        }
+    
+
+
+       
+        
+       
+      
+
+      
+
+        void DealDamage(int damage)
+        {
+            Enemies Enemy = new Enemies();
+
+            Console.WriteLine("You have Dealt " + damage + " damage");
+            enemyHealth -= (damage); 
+            if (enemyHealth <= 0) // TODO reset enemy health or declare all enemies have been killed and stop assigning damage
+            {
+                score += 100;
+                level++;
+                Console.WriteLine("You have slain an enemy"); 
+            }
             Enemy.ShowEnemyHUD();
-            Enemy.SpawnEnemy(2);
-            Console.WriteLine("Show HUD for level 2 Enemy ");
-            Enemy.ShowEnemyHUD();
-            TakeDamage(5);
+        }
+
+
+        void TakeDamage(int damage)
+
+        {
+            if (damage <= -1)
+            {
+                Console.WriteLine("Player tried to take " + damage + " damage");
+                Console.WriteLine("You cannot take a negative amount of damage");
+                return;
+            }
+
+            Console.WriteLine("You have taken " + damage +" damage");
+            shield = shield - damage;
+            if (shield <= 0)
+            {
+                health = health + shield;
+                if (health <= 0)
+                {
+                    health = 0;
+                    //Revive();
+                }
+                LivesCheck();
+                shield = 0;
+            }
             ShowHUD();
-            DealDamage(25);
-            ShowHUD();
-            TakeDamage(-5);
-            ShowHUD();
-            DealDamage(25);
-            ShowHUD();
-            TakeDamage(150);
-            ShowHUD();
-            Heal(50);
-            ShowHUD();
-            Heal(-10);
-            ShowHUD();
-            Heal(200);
-            ShowHUD();
-            RegenerateShield(50);
-            ShowHUD();
-            RegenerateShield(-10);
-            ShowHUD();
-            TakeDamage(200);
-            Revive();
-            TakeDamage(200);
-            ShowHUD();
-            Revive();
-            TakeDamage(200);
-            ShowHUD();
-            TakeDamage(200);
-            ShowHUD();
-            Revive();
-            LivesCheck();
-            ResetGame();
         }
 
         void RegenerateShield(int Shield)
@@ -133,6 +172,7 @@ namespace HudVariables
             }
 
         }
+
         public void Heal(int Health)
         {
             if (Health <= -1)
@@ -144,10 +184,10 @@ namespace HudVariables
             if (health <= 100)
             {
                 Console.WriteLine("You have gained " + Health + " health");
-            if (Health >= 100)
-            { 
-                Console.WriteLine("You cannot have more than 100 health"); 
-            }
+                if (Health >= 100)
+                {
+                    Console.WriteLine("You cannot have more than 100 health");
+                }
                 health = health + Health;
                 if (health >= 100)
                 {
@@ -179,43 +219,23 @@ namespace HudVariables
             shield = 100;
         }
 
-        void DealDamage(int damage)
+        void ResetGame()
         {
-            Console.WriteLine("You have Dealt " + damage + " damage");
-            enemyHealth -= (damage + Damage); // () needed for order of operations
-            if (enemyHealth <= 0)
-            {
-                score += 100;
-                level++;
-                Console.WriteLine("You have slain an enemy");
-            }
+            Console.WriteLine("Your progress has been reset");
+            scoreMult = 1;
+            lives = 3;
+            level = 1;
+            score = 0;
+            health = 100;
+            Damage = 0;
+            enemyDamage = 0;
+            enemyHealth = 50;
+            enemyRemainingHealth = 0;
+            shield = 100;
+            leftOverDamage = 0;
+            ShowHUD();
         }
 
-        void TakeDamage(int damage)
-
-        {
-            if (damage <= -1)
-            {
-                Console.WriteLine("Player tried to take " + damage + " damage");
-                Console.WriteLine("You cannot take a negative amount of damage");
-                return;
-            }
-
-
-            Console.WriteLine("You have taken " + damage +" damage");
-            shield = shield - damage;
-            if (shield <= 0)
-            {
-                health = health + shield;
-                if (health <= 0)
-                {
-                    health = 0;
-                    //Revive();
-                }
-                LivesCheck();
-                shield = 0;
-            }
-        }
         public void ShowHUD()
         {
             Console.WriteLine("Score: " + score + " Health: " + health + " Lives: " + lives + " Shield " + shield + " Bonus Damage " + Damage);
